@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:postgres@localhost:5432/db"
+}
+
+//Receber Os dados da empresa para um
+model empresaCliente{
+  id Int @id @default(autoincrement())
+  empresaId Int
+  nome String
+  telefoneCont Int
+}
+
