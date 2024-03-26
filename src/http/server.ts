@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/', newEmpresa);
+app.post('/createEmp', newEmpresa.creatEmpresa );
 
 app.get('/', (req: Request, res: Response) => {
     return res.status(200).json('Olá, seja bem vindo!')

@@ -7,11 +7,61 @@ datasource db {
   url      = "postgresql://postgres:postgres@localhost:5432/db"
 }
 
-//Receber Os dados da empresa para um
-model empresaCliente{
-  id Int @id @default(autoincrement())
-  empresaId Int
-  nome String
+//Recebe esses dados pra cadastrar empresa na Base de dados
+model Empresa {
+  id           Int      @id @default(autoincrement())
+  empresaId    Int      @unique
+  nome         String
   telefoneCont Int
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  // Adicionando campo de relação correspondente
+  workers Worker[]
+  // Posso acessar aqui com um empresa.workers
+
+  @@map("cadEmpresas")
+}
+
+model Acessos {
+  id       Int      @id
+  tpAcesso String
+  acessos  Worker[]
+
+  @@map("tpAcessos")
+}
+
+model Worker {
+  idWorker   Int      @id @default(autoincrement())
+  cadEmpresa Empresa  @relation(fields: [empresa], references: [empresaId])
+  empresa    Int
+  nome       String
+  func       String
+  number     Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  tpacesso   Acessos  @relation(fields: [acesso], references: [id])
+  acesso     Int
+
+  @@map("worker")
+}
+
+// Cadastro de feriados
+// 1 - Feriado 
+// 2 - Folga
+// 3 -
+model NotWork {
+  idEvent   Int    @id
+  nameEvent String 
+
+  @@map("notWork")
+}
+
+model Services {
+  id Int @id
+  desc String
+  tempService Int //Converter minutos -> Segundos para armazenar aqui
+
+  @@map("services")
 }
 
